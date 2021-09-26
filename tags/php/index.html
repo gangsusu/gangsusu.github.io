@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>php | 玖月的博客</title>
+    <meta property="og:title" content="php - 玖月的博客">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="php">
+        
+    <meta name="author" content="玖月">
+    <meta property="og:url" content="https://gangsusu.github.io/tags/php/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml" href="https://gangsusu.github.io/tags/php/index.xml" title="玖月的博客" />
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://gangsusu.github.io/">
+                        玖月的博客
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://gangsusu.github.io/">首页</a>
+                    
+                    <a  href="https://gangsusu.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://gangsusu.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <h3 class="archive-title">
+        包含标签
+        <span class="keyword">php</span>
+        的文章
+    </h3>
+    
+
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/">php中的深拷贝和浅拷贝？</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年9月26日
+        </date>
+        
+        <div class="post-meta meta-category">
+            |
+            
+            <a href='/categories/php'>php</a>
+            
+        </div>
+        
+        <div class="post-content">
+            深拷贝和浅拷贝的通俗理解  深拷贝：在赋值的时候，完全复制，是完全不同的两个值，对其中一个修改，不会影响到另一个。 浅拷贝：在赋值的时候，是引用赋值，对应的是同一个值，对其中一个修改，另一个的值也会随之更改。  在php中，常用的数据数据类型如int和string，是深拷贝，直接复制了一个新的出来，两个值之间互不干涉，这个比较简单，不做赘述。我们来看一下，稍微有点不同的对象类型。
+代码验证  首先，我们来看一看最简单的，只包含一个普通属性的情况：  class TestOne { public $data = 11; } $a = new TestOne(); $b = $a; $a-&gt;data = 22; var_dump($a-&gt;data); // 22 var_dump($b-&gt;data); // 22 我们可以看到其中一个值的改变，另一个值也随之改变了，说明了不同于php常见数据类型的深拷贝，这里发生的浅拷贝。
+__clone可以复制，我们看看上面的情况用__clone会如何  class TestTwo { public $data = 11; } $c = new TestTwo(); $d = clone $c; $c-&gt;data = 22; var_dump($c-&gt;data); // 22 var_dump($d-&gt;data); // 11 我们可以看到，一个值得改变没有影响到另一个，发生的是深拷贝。
+我们看一看更复杂的情况，加上对象属性会怎么样  class Test { public $a = 1; } class TestThree { public $b = 1; public $obj; public function __construct() { $this-&gt;obj = new Test(); } } $e = new TestThree(); $f = $e; $e-&gt;b = 2; $e-&gt;obj-&gt;a = 3; var_dump($e-&gt;b); //2 var_dump($e-&gt;obj-&gt;a); //3 var_dump($f-&gt;b); //2 var_dump($f-&gt;obj-&gt;a); //3 我们可以看到，普通属性和对象属性操作的值都该改变了，说明都发生了浅拷贝，这和TestOne中是一样的。……
+            <p class="readmore"><a href="https://gangsusu.github.io/post/2021-09-26-php-copy/">阅读全文</a></p>
+        </div>
+    </article>
+    
+
+    
+
+
+
+
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://gangsusu.github.io/">玖月的博客 By 玖月</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://gangsusu.github.io" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">玖月</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://gangsusu.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝？">php中的深拷贝和浅拷贝？</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-24-try-hard/" title="你尽力了吗？">你尽力了吗？</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://gangsusu.github.io/categories/php/">php (1)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/%E9%9A%8F%E7%AC%94/">随笔 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://gangsusu.github.io/tags/php/">php</a>
+    
+    <a href="https://gangsusu.github.io/tags/%E9%9A%8F%E7%AC%94/">随笔</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://gangsusu.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

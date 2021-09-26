@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 玖月的博客</title>
+    <link>https://gangsusu.github.io/categories/</link>
+    <description>Recent content in Categories on 玖月的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 26 Sep 2021 13:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>php</title>
+      <link>https://gangsusu.github.io/categories/php/</link>
+      <pubDate>Sun, 26 Sep 2021 13:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/categories/php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>随笔</title>
+      <link>https://gangsusu.github.io/categories/%E9%9A%8F%E7%AC%94/</link>
+      <pubDate>Fri, 24 Sep 2021 13:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/categories/%E9%9A%8F%E7%AC%94/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

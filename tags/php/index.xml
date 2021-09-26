@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>php on 玖月的博客</title>
+    <link>https://gangsusu.github.io/tags/php/</link>
+    <description>Recent content in php on 玖月的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 26 Sep 2021 13:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/tags/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>php中的深拷贝和浅拷贝？</title>
+      <link>https://gangsusu.github.io/post/2021-09-26-php-copy/</link>
+      <pubDate>Sun, 26 Sep 2021 13:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/post/2021-09-26-php-copy/</guid>
+      <description>深拷贝和浅拷贝的通俗理解  深拷贝：在赋值的时候，完全复制，是完全不同的两个值，对其中一个修改，不会影响到另一个。 浅拷贝：在赋值的时候，是引用赋值，对应的是同一个值，对其中一个修改，另一个的值也会随之更改。  在php中，常用的数据数据类型如int和string，是深拷贝，直接复制了一个新的出来，两个值之间互不干涉，这个比较简单，不做赘述。我们来看一下，稍微有点不同的对象类型。
+代码验证  首先，我们来看一看最简单的，只包含一个普通属性的情况：  class TestOne { public $data = 11; } $a = new TestOne(); $b = $a; $a-&amp;gt;data = 22; var_dump($a-&amp;gt;data); // 22 var_dump($b-&amp;gt;data); // 22 我们可以看到其中一个值的改变，另一个值也随之改变了，说明了不同于php常见数据类型的深拷贝，这里发生的浅拷贝。
+__clone可以复制，我们看看上面的情况用__clone会如何  class TestTwo { public $data = 11; } $c = new TestTwo(); $d = clone $c; $c-&amp;gt;data = 22; var_dump($c-&amp;gt;data); // 22 var_dump($d-&amp;gt;data); // 11 我们可以看到，一个值得改变没有影响到另一个，发生的是深拷贝。
+我们看一看更复杂的情况，加上对象属性会怎么样  class Test { public $a = 1; } class TestThree { public $b = 1; public $obj; public function __construct() { $this-&amp;gt;obj = new Test(); } } $e = new TestThree(); $f = $e; $e-&amp;gt;b = 2; $e-&amp;gt;obj-&amp;gt;a = 3; var_dump($e-&amp;gt;b); //2 var_dump($e-&amp;gt;obj-&amp;gt;a); //3 var_dump($f-&amp;gt;b); //2 var_dump($f-&amp;gt;obj-&amp;gt;a); //3 我们可以看到，普通属性和对象属性操作的值都该改变了，说明都发生了浅拷贝，这和TestOne中是一样的。</description>
+    </item>
+    
+  </channel>
+</rss>
