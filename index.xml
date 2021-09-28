@@ -6,9 +6,21 @@
     <description>Recent content on 玖月的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 26 Sep 2021 13:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Sep 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>php中的深拷贝和浅拷贝？</title>
+      <title>go中的深拷贝和浅拷贝</title>
+      <link>https://gangsusu.github.io/post/2021-09-28-go-copy/</link>
+      <pubDate>Tue, 28 Sep 2021 09:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/post/2021-09-28-go-copy/</guid>
+      <description>go中的数据类型 在go中，数据类型有很多，int、string、bool、array、slice、map、struct、channel、interface、function等。
+代码验证  数组在php中是非常重要的数据类型，在php中是深拷贝，我们先看看go中的数组  array01 := [3]string{&amp;#34;a&amp;#34;, &amp;#34;b&amp;#34;, &amp;#34;c&amp;#34;} array02 := array01 array01[1] = &amp;#34;B&amp;#34; fmt.Println(array01) // [a B c] 	fmt.Println(array02) // [a b c] go中的数组也是深拷贝。
+我们看一看切片slice  slice01 := []string{&amp;#34;a&amp;#34;, &amp;#34;b&amp;#34;, &amp;#34;c&amp;#34;} slice02 := slice01 slice01[1] = &amp;#34;B&amp;#34; fmt.Println(slice01) // [a B c] 	fmt.Println(slice02) // [a B c] 我们可以看到，slice是浅拷贝。
+我们可以使用一个copy函数来对slice进行深拷贝  slice03 := []string{&amp;#34;a&amp;#34;, &amp;#34;b&amp;#34;, &amp;#34;c&amp;#34;} slice04 := make([]string, 3, 3) copy(slice04, slice03) slice03[1] = &amp;#34;B&amp;#34; fmt.</description>
+    </item>
+    
+    <item>
+      <title>php中的深拷贝和浅拷贝</title>
       <link>https://gangsusu.github.io/post/2021-09-26-php-copy/</link>
       <pubDate>Sun, 26 Sep 2021 13:00:00 +0800</pubDate>
       

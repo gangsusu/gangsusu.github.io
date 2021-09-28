@@ -71,7 +71,35 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝？">php中的深拷贝和浅拷贝？</a>
+                <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/" title="go中的深拷贝和浅拷贝">go中的深拷贝和浅拷贝</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年9月28日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/golang'>golang</a></span>
+            
+        </div>
+        
+        <div class="post-content">
+            go中的数据类型 在go中，数据类型有很多，int、string、bool、array、slice、map、struct、channel、interface、function等。
+代码验证  数组在php中是非常重要的数据类型，在php中是深拷贝，我们先看看go中的数组  array01 := [3]string{&#34;a&#34;, &#34;b&#34;, &#34;c&#34;} array02 := array01 array01[1] = &#34;B&#34; fmt.Println(array01) // [a B c] 	fmt.Println(array02) // [a b c] go中的数组也是深拷贝。
+我们看一看切片slice  slice01 := []string{&#34;a&#34;, &#34;b&#34;, &#34;c&#34;} slice02 := slice01 slice01[1] = &#34;B&#34; fmt.Println(slice01) // [a B c] 	fmt.Println(slice02) // [a B c] 我们可以看到，slice是浅拷贝。
+我们可以使用一个copy函数来对slice进行深拷贝  slice03 := []string{&#34;a&#34;, &#34;b&#34;, &#34;c&#34;} slice04 := make([]string, 3, 3) copy(slice04, slice03) slice03[1] = &#34;B&#34; fmt.……
+        </div>
+        <p class="readmore"><a href="https://gangsusu.github.io/post/2021-09-28-go-copy/">阅读全文</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝">php中的深拷贝和浅拷贝</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
@@ -185,7 +213,11 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
 <ul class="widget-list">
     
     <li>
-        <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝？">php中的深拷贝和浅拷贝？</a>
+        <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/" title="go中的深拷贝和浅拷贝">go中的深拷贝和浅拷贝</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝">php中的深拷贝和浅拷贝</a>
     </li>
     
     <li>
@@ -201,6 +233,8 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
+    <li><a href="https://gangsusu.github.io/categories/golang/">golang (1)</a></li>
+    
     <li><a href="https://gangsusu.github.io/categories/php/">php (1)</a></li>
     
     <li><a href="https://gangsusu.github.io/categories/%E9%9A%8F%E7%AC%94/">随笔 (1)</a></li>
@@ -211,6 +245,8 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://gangsusu.github.io/tags/golang/">golang</a>
     
     <a href="https://gangsusu.github.io/tags/php/">php</a>
     

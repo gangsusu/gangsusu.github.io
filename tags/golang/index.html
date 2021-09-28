@@ -7,24 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>关于我 | 玖月的博客</title>
-    <meta property="og:title" content="关于我 - 玖月的博客">
+    <title>golang | 玖月的博客</title>
+    <meta property="og:title" content="golang - 玖月的博客">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2021-09-26T00:13:27&#43;08:00'>
-        
-        
-    <meta property="article:modified_time" content='2021-09-26T00:13:27&#43;08:00'>
         
     <meta name="Keywords" content="">
-    <meta name="description" content="《Go 实战笔记》系列作者，《Golang Gin 实战》系列作者，《Android Gradle权威指南》作者，现负责技术管理">
+    <meta name="description" content="golang">
         
     <meta name="author" content="玖月">
-    <meta property="og:url" content="https://gangsusu.github.io/about/">
+    <meta property="og:url" content="https://gangsusu.github.io/tags/golang/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml" href="https://gangsusu.github.io/tags/golang/index.xml" title="玖月的博客" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -54,7 +51,7 @@
                     
                     <a  href="https://gangsusu.github.io/archives/" title="归档">归档</a>
                     
-                    <a class="current" href="https://gangsusu.github.io/about/" title="关于">关于</a>
+                    <a  href="https://gangsusu.github.io/about/" title="关于">关于</a>
                     
                 </nav>
             </div>
@@ -70,48 +67,47 @@
                     
 <div class="res-cons">
     
+    <h3 class="archive-title">
+        包含标签
+        <span class="keyword">golang</span>
+        的文章
+    </h3>
+    
+
+    
     <article class="post">
         <header>
-            <h1 class="post-title">关于我</h1>
+            <h1 class="post-title">
+                <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/">go中的深拷贝和浅拷贝</a>
+            </h1>
         </header>
         <date class="post-meta meta-date">
-            2021年9月26日
+            2021年9月28日
         </date>
         
-        
+        <div class="post-meta meta-category">
+            |
+            
+            <a href='/categories/golang'>golang</a>
+            
+        </div>
         
         <div class="post-content">
-            <p>A developer.</p>
-
-        </div>
-
-        
-
-
-        
-
-
-        <div class="post-meta meta-tags">
-            
-            没有标签
-            
+            go中的数据类型 在go中，数据类型有很多，int、string、bool、array、slice、map、struct、channel、interface、function等。
+代码验证  数组在php中是非常重要的数据类型，在php中是深拷贝，我们先看看go中的数组  array01 := [3]string{&#34;a&#34;, &#34;b&#34;, &#34;c&#34;} array02 := array01 array01[1] = &#34;B&#34; fmt.Println(array01) // [a B c] 	fmt.Println(array02) // [a b c] go中的数组也是深拷贝。
+我们看一看切片slice  slice01 := []string{&#34;a&#34;, &#34;b&#34;, &#34;c&#34;} slice02 := slice01 slice01[1] = &#34;B&#34; fmt.Println(slice01) // [a B c] 	fmt.Println(slice02) // [a B c] 我们可以看到，slice是浅拷贝。
+我们可以使用一个copy函数来对slice进行深拷贝  slice03 := []string{&#34;a&#34;, &#34;b&#34;, &#34;c&#34;} slice04 := make([]string, 3, 3) copy(slice04, slice03) slice03[1] = &#34;B&#34; fmt.……
+            <p class="readmore"><a href="https://gangsusu.github.io/post/2021-09-28-go-copy/">阅读全文</a></p>
         </div>
     </article>
     
-    
 
     
-    
-    <div class="post bg-white">
-      <script src="https://utteranc.es/client.js"
-            repo= "gangsusu/gangsusu.github.io"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    </div>
-    
+
+
+
+
+
 </div>
 
                     <footer id="footer">
@@ -134,16 +130,6 @@
 </footer>
 
 
-    
-    <script type="text/javascript">
-        window.MathJax = {
-            tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
-    </script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>

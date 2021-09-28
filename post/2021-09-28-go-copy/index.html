@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>go中的深拷贝和浅拷贝 | 玖月的博客</title>
+    <meta property="og:title" content="go中的深拷贝和浅拷贝 - 玖月的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-09-28T09:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-09-28T09:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="go中的深拷贝和浅拷贝">
+        
+    <meta name="author" content="玖月">
+    <meta property="og:url" content="https://gangsusu.github.io/post/2021-09-28-go-copy/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://gangsusu.github.io/">
+                        玖月的博客
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://gangsusu.github.io/">首页</a>
+                    
+                    <a  href="https://gangsusu.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://gangsusu.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">go中的深拷贝和浅拷贝</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年9月28日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/golang'>golang</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <h3 id="go中的数据类型">go中的数据类型</h3>
+<p>在go中，数据类型有很多，int、string、bool、array、slice、map、struct、channel、interface、function等。</p>
+<h3 id="代码验证">代码验证</h3>
+<ol>
+<li>数组在php中是非常重要的数据类型，在php中是深拷贝，我们先看看go中的数组</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#a6e22e">array01</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">3</span>]<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;b&#34;</span>, <span style="color:#e6db74">&#34;c&#34;</span>}
+	<span style="color:#a6e22e">array02</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">array01</span>
+	<span style="color:#a6e22e">array01</span>[<span style="color:#ae81ff">1</span>] = <span style="color:#e6db74">&#34;B&#34;</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">array01</span>) <span style="color:#75715e">// [a B c]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">array02</span>) <span style="color:#75715e">// [a b c]
+</span></code></pre></div><p>go中的数组也是深拷贝。</p>
+<ol start="2">
+<li>我们看一看切片slice</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#a6e22e">slice01</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;b&#34;</span>, <span style="color:#e6db74">&#34;c&#34;</span>}
+	<span style="color:#a6e22e">slice02</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">slice01</span>
+	<span style="color:#a6e22e">slice01</span>[<span style="color:#ae81ff">1</span>] = <span style="color:#e6db74">&#34;B&#34;</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">slice01</span>) <span style="color:#75715e">// [a B c]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">slice02</span>) <span style="color:#75715e">// [a B c]
+</span></code></pre></div><p>我们可以看到，slice是浅拷贝。</p>
+<ol start="3">
+<li>我们可以使用一个copy函数来对slice进行深拷贝</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#a6e22e">slice03</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;b&#34;</span>, <span style="color:#e6db74">&#34;c&#34;</span>}
+	<span style="color:#a6e22e">slice04</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>)
+	copy(<span style="color:#a6e22e">slice04</span>, <span style="color:#a6e22e">slice03</span>)
+	<span style="color:#a6e22e">slice03</span>[<span style="color:#ae81ff">1</span>] = <span style="color:#e6db74">&#34;B&#34;</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">slice03</span>) <span style="color:#75715e">// [a B c]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">slice04</span>) <span style="color:#75715e">// [a b c]
+</span></code></pre></div><p>我们用make函数来创建一个len是3,cap是3的切片，然后将源slice复制到创建好的切片中去，就完成了深拷贝。</p>
+<ol start="4">
+<li>对数组的截取也可以生成一个切片，我们看看这种情况下切片和源数组的关系</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#a6e22e">arr01</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">4</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">slice05</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">arr01</span>[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
+	<span style="color:#a6e22e">arr01</span>[<span style="color:#ae81ff">1</span>] = <span style="color:#ae81ff">33</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">arr01</span>)   <span style="color:#75715e">// [2 33 4 5]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">slice05</span>) <span style="color:#75715e">// [33 4]
+</span></code></pre></div><p>还是浅拷贝，这是因为切出来的切片，其实只是对源数组的一段引用，所以，当源数组改变了，引用了该数组的切片自然也会发生改变。</p>
+<ol start="5">
+<li>再看看字典map</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#a6e22e">map01</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{
+		<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;tom&#34;</span>,
+		<span style="color:#e6db74">&#34;sex&#34;</span>:  <span style="color:#e6db74">&#34;男&#34;</span>,
+	}
+	<span style="color:#a6e22e">map02</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">map01</span>
+	<span style="color:#a6e22e">map01</span>[<span style="color:#e6db74">&#34;sex&#34;</span>] = <span style="color:#e6db74">&#34;女&#34;</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">map01</span>) <span style="color:#75715e">//map[name:tom sex:女]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">map02</span>) <span style="color:#75715e">//map[name:tom sex:女]
+</span></code></pre></div><p>可以看到，map是浅拷贝。</p>
+<ol start="6">
+<li>map可以深拷贝吗？是可以的</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#a6e22e">map03</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{
+		<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;tom&#34;</span>,
+		<span style="color:#e6db74">&#34;sex&#34;</span>:  <span style="color:#e6db74">&#34;男&#34;</span>,
+	}
+	<span style="color:#a6e22e">map04Tmp</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">map03</span>)
+	<span style="color:#a6e22e">map04</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>)
+	<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">map04Tmp</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">map04</span>)
+	<span style="color:#a6e22e">map03</span>[<span style="color:#e6db74">&#34;sex&#34;</span>] = <span style="color:#e6db74">&#34;女&#34;</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">map03</span>) <span style="color:#75715e">//map[name:tom sex:女]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">map04</span>) <span style="color:#75715e">//map[name:tom sex:男]
+</span></code></pre></div><p>类似于php中的序列化和反序列化，可以使用json的序列化和反序列化来进行map的深拷贝。</p>
+<ol start="7">
+<li>结构体也是常用的数据类型，我们来看看struct</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Stu</span> <span style="color:#66d9ef">struct</span> {
+		<span style="color:#a6e22e">name</span>    <span style="color:#66d9ef">string</span>
+		<span style="color:#a6e22e">sex</span>     <span style="color:#66d9ef">int</span>
+		<span style="color:#a6e22e">age</span>     <span style="color:#66d9ef">int</span>
+		<span style="color:#a6e22e">address</span> <span style="color:#66d9ef">string</span>
+	}
+
+	<span style="color:#a6e22e">stu01</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Stu</span>{
+		<span style="color:#a6e22e">name</span>:    <span style="color:#e6db74">&#34;tom&#34;</span>,
+		<span style="color:#a6e22e">sex</span>:     <span style="color:#ae81ff">0</span>,
+		<span style="color:#a6e22e">age</span>:     <span style="color:#ae81ff">18</span>,
+		<span style="color:#a6e22e">address</span>: <span style="color:#e6db74">&#34;上海&#34;</span>,
+	}
+	<span style="color:#a6e22e">stu02</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">stu01</span>
+	<span style="color:#a6e22e">stu01</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;tim&#34;</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">stu01</span>) <span style="color:#75715e">// {tim 0 18 上海}
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">stu02</span>) <span style="color:#75715e">// {tom 0 18 上海}
+</span></code></pre></div><p>可以看到，结构体是深拷贝。</p>
+<h3 id="总结">总结</h3>
+<p>其中简单的如int、string、bool、array都是深拷贝，struct也是深拷贝，其他的如slice、map、channel、interface、function是浅拷贝。</p>
+
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/golang'>golang</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "gangsusu/gangsusu.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://gangsusu.github.io/">玖月的博客 By 玖月</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://gangsusu.github.io" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">玖月</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://gangsusu.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/" title="go中的深拷贝和浅拷贝">go中的深拷贝和浅拷贝</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝">php中的深拷贝和浅拷贝</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-24-try-hard/" title="你尽力了吗？">你尽力了吗？</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://gangsusu.github.io/categories/golang/">golang (1)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/php/">php (1)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/%E9%9A%8F%E7%AC%94/">随笔 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://gangsusu.github.io/tags/golang/">golang</a>
+    
+    <a href="https://gangsusu.github.io/tags/php/">php</a>
+    
+    <a href="https://gangsusu.github.io/tags/%E9%9A%8F%E7%AC%94/">随笔</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://gangsusu.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
