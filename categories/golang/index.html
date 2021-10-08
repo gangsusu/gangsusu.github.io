@@ -78,6 +78,33 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://gangsusu.github.io/post/2021-09-30-go-map/">go数据类型之map</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年10月8日
+        </date>
+        
+        <div class="post-meta meta-category">
+            |
+            
+            <a href='/categories/golang'>golang</a>
+            
+        </div>
+        
+        <div class="post-content">
+            map的基本介绍 map是go中一种很重要的数据类型，是一种无序的键值对集合。它有一些独特的特点。
+遍历时候是无序的 map是一种集合，我们可以来迭代它。但是迭代出来的结果是无序的，它是用hash表来实现的。 按照一些资料显示，map的无序是有意为之，大佬不希望使用者依赖key的排序，来定位value。可自行迭代来验证迭代结果是否是无序的。
+并发不安全 map是并发不安全的，不注意这个点，很容易造成bug，如下面的演示，启动了3个线程来调用write方法，下面的代码会报错，提示goroutine running on other thread; stack unavailable
+并发不安全的演示 package main import ( &#34;fmt&#34; &#34;time&#34; ) func write(m map[string]int) { for i := 0; i &lt; 100000; i++ { m[&#34;num&#34;] = i } } func main() { map01 := map[string]int{&#34;num&#34;: 0} go write(map01) go write(map01) go write(map01) time.Sleep(1 * time.Second) fmt.Println(map01) } 使用加锁来保证并发安全 简单处理，可以在执行每个操作的时候加锁，代码如下：
+package main import ( &#34;fmt&#34; &#34;sync&#34; &#34;time&#34; ) var Lock sync.RWMutex func write(m map[string]int) { for i := 0; i &lt; 100000; i++ { Lock.……
+            <p class="readmore"><a href="https://gangsusu.github.io/post/2021-09-30-go-map/">阅读全文</a></p>
+        </div>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/">go中的深拷贝和浅拷贝</a>
             </h1>
         </header>
@@ -156,6 +183,10 @@
 <ul class="widget-list">
     
     <li>
+        <a href="https://gangsusu.github.io/post/2021-09-30-go-map/" title="go数据类型之map">go数据类型之map</a>
+    </li>
+    
+    <li>
         <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/" title="go中的深拷贝和浅拷贝">go中的深拷贝和浅拷贝</a>
     </li>
     
@@ -176,7 +207,7 @@
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://gangsusu.github.io/categories/golang/">golang (1)</a></li>
+    <li><a href="https://gangsusu.github.io/categories/golang/">golang (2)</a></li>
     
     <li><a href="https://gangsusu.github.io/categories/php/">php (1)</a></li>
     
