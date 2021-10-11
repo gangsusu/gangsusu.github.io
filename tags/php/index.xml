@@ -6,7 +6,21 @@
     <description>Recent content in php on 玖月的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 26 Sep 2021 13:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/tags/php/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Oct 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/tags/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>laravel宏指令Macro</title>
+      <link>https://gangsusu.github.io/post/2021-10-10-larave-macro/</link>
+      <pubDate>Mon, 11 Oct 2021 09:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/post/2021-10-10-larave-macro/</guid>
+      <description>简介 在大学学习office的时候，会提到宏指令，它是一种批量处理，根据一系列预定义的规则，作为一个单独命令完成一个特定任务。我们来看一看laravel中的宏指令，它允许你添加自定义功能到laravel的内部组件中去。
+扩展collection集合的功能 我们知道，在laravel中可以使用paginate或者simplePaginate来轻松的实现分页，但是，它只是支持针对数据库的查询构建器来使用，在开发中遇到了一个场景，需要对一些统计出来的数据做分页展示，当然我们可以对统计出来的数据集合使用forPage来进行分页数据的截取，但是就不能用paginate的分页用法了，还要手写前端分页样式，干脆扩展一个集合的paginate分页。
+扩展的方法为
+if (!Collection::hasMacro(&amp;#39;paginate&amp;#39;)) { Collection::macro(&amp;#39;paginate&amp;#39;, function ($path, $perPage = 10, $page = null, $options = []) { $page = $page ?: (Paginator::resolveCurrentPage() ?: 1); $offset = ($page * $perPage) - $perPage; return (new LengthAwarePaginator( $this-&amp;gt;slice($offset, $perPage)-&amp;gt;values(), $this-&amp;gt;count(), $perPage, $page, $options)) -&amp;gt;withPath($path); }); } 使用Collection::macro方法来扩展方法，第一个参数是想要扩展的方法名，第二个参数是一个匿名函数，想要传递的参数，也可以写在匿名函数里，这样就能给Collection扩展一个paginate方法，具体的逻辑是参照paginate的源码做了一定的修改，我们讨论的是怎样使用宏，对实现自定义分页的逻辑就不再展开说了。
+方法写好了，要怎样在框架注册呢？最简单的就是直接在AppServiceProvider的boot方法里注册，但是我们可能注册很多不同类型的宏，因为laravel支持扩展宏的类型有很多，那么我们干脆新建一个CollectionMacroServiceProvider来进行所有Collection的宏注册。
+&amp;lt;?php namespace App\Providers; use Illuminate\Pagination\LengthAwarePaginator; use Illuminate\Pagination\Paginator; use Illuminate\Support\Collection; use Illuminate\Support\ServiceProvider; class CollectionMacroServiceProvider extends ServiceProvider { public function boot() { if (!</description>
+    </item>
+    
     <item>
       <title>php中的深拷贝和浅拷贝</title>
       <link>https://gangsusu.github.io/post/2021-09-26-php-copy/</link>

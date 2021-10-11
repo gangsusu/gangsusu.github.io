@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>laravel宏指令Macro | 玖月的博客</title>
+    <meta property="og:title" content="laravel宏指令Macro - 玖月的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-10-11T09:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-10-11T09:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="laravel宏指令Macro">
+        
+    <meta name="author" content="玖月">
+    <meta property="og:url" content="https://gangsusu.github.io/post/2021-10-10-larave-macro/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://gangsusu.github.io/">
+                        玖月的博客
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://gangsusu.github.io/">首页</a>
+                    
+                    <a  href="https://gangsusu.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://gangsusu.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">laravel宏指令Macro</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年10月11日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/php'>php</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <h3 id="简介">简介</h3>
+<p>在大学学习office的时候，会提到宏指令，它是一种批量处理，根据一系列预定义的规则，作为一个单独命令完成一个特定任务。我们来看一看laravel中的宏指令，它允许你添加自定义功能到laravel的内部组件中去。</p>
+<h3 id="扩展collection集合的功能">扩展collection集合的功能</h3>
+<p>我们知道，在laravel中可以使用paginate或者simplePaginate来轻松的实现分页，但是，它只是支持针对数据库的查询构建器来使用，在开发中遇到了一个场景，需要对一些统计出来的数据做分页展示，当然我们可以对统计出来的数据集合使用forPage来进行分页数据的截取，但是就不能用paginate的分页用法了，还要手写前端分页样式，干脆扩展一个集合的paginate分页。</p>
+<p>扩展的方法为</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">Collection</span><span style="color:#f92672">::</span><span style="color:#a6e22e">hasMacro</span>(<span style="color:#e6db74">&#39;paginate&#39;</span>)) {
+            <span style="color:#a6e22e">Collection</span><span style="color:#f92672">::</span><span style="color:#a6e22e">macro</span>(<span style="color:#e6db74">&#39;paginate&#39;</span>,
+                <span style="color:#66d9ef">function</span> ($path, $perPage <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, $page <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>, $options <span style="color:#f92672">=</span> []) {
+                    $page <span style="color:#f92672">=</span> $page <span style="color:#f92672">?:</span> (<span style="color:#a6e22e">Paginator</span><span style="color:#f92672">::</span><span style="color:#a6e22e">resolveCurrentPage</span>() <span style="color:#f92672">?:</span> <span style="color:#ae81ff">1</span>);
+                    $offset <span style="color:#f92672">=</span> ($page <span style="color:#f92672">*</span> $perPage) <span style="color:#f92672">-</span> $perPage;
+                    <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">LengthAwarePaginator</span>(
+                        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">slice</span>($offset, $perPage)<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">values</span>(),
+                        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">count</span>(),
+                        $perPage,
+                        $page,
+                        $options))
+                        <span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">withPath</span>($path);
+                });
+        }
+</code></pre></div><p>使用Collection::macro方法来扩展方法，第一个参数是想要扩展的方法名，第二个参数是一个匿名函数，想要传递的参数，也可以写在匿名函数里，这样就能给Collection扩展一个paginate方法，具体的逻辑是参照paginate的源码做了一定的修改，我们讨论的是怎样使用宏，对实现自定义分页的逻辑就不再展开说了。</p>
+<p>方法写好了，要怎样在框架注册呢？最简单的就是直接在AppServiceProvider的boot方法里注册，但是我们可能注册很多不同类型的宏，因为laravel支持扩展宏的类型有很多，那么我们干脆新建一个CollectionMacroServiceProvider来进行所有Collection的宏注册。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+
+<span style="color:#66d9ef">namespace</span> <span style="color:#a6e22e">App\Providers</span>;
+
+<span style="color:#66d9ef">use</span> <span style="color:#a6e22e">Illuminate\Pagination\LengthAwarePaginator</span>;
+<span style="color:#66d9ef">use</span> <span style="color:#a6e22e">Illuminate\Pagination\Paginator</span>;
+<span style="color:#66d9ef">use</span> <span style="color:#a6e22e">Illuminate\Support\Collection</span>;
+<span style="color:#66d9ef">use</span> <span style="color:#a6e22e">Illuminate\Support\ServiceProvider</span>;
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CollectionMacroServiceProvider</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">ServiceProvider</span>
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">boot</span>()
+    {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">Collection</span><span style="color:#f92672">::</span><span style="color:#a6e22e">hasMacro</span>(<span style="color:#e6db74">&#39;paginate&#39;</span>)) {
+            <span style="color:#a6e22e">Collection</span><span style="color:#f92672">::</span><span style="color:#a6e22e">macro</span>(<span style="color:#e6db74">&#39;paginate&#39;</span>,
+                <span style="color:#66d9ef">function</span> ($path, $perPage <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, $page <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>, $options <span style="color:#f92672">=</span> []) {
+                    $page <span style="color:#f92672">=</span> $page <span style="color:#f92672">?:</span> (<span style="color:#a6e22e">Paginator</span><span style="color:#f92672">::</span><span style="color:#a6e22e">resolveCurrentPage</span>() <span style="color:#f92672">?:</span> <span style="color:#ae81ff">1</span>);
+                    $offset <span style="color:#f92672">=</span> ($page <span style="color:#f92672">*</span> $perPage) <span style="color:#f92672">-</span> $perPage;
+                    <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">LengthAwarePaginator</span>(
+                        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">slice</span>($offset, $perPage)<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">values</span>(),
+                        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">count</span>(),
+                        $perPage,
+                        $page,
+                        $options))
+                        <span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">withPath</span>($path);
+                });
+        }
+    }
+}
+</code></pre></div><p>然后在config/app.php里的providers里添加好我们新建的CollectionMacroServiceProvider即可全局注册，然后我们就能使用了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">    $collection <span style="color:#f92672">=</span> <span style="color:#a6e22e">collect</span>([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">13</span>])<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">paginate</span>(<span style="color:#e6db74">&#39;qq.com&#39;</span>, <span style="color:#ae81ff">10</span>);
+    <span style="color:#a6e22e">dump</span>($collection);
+    <span style="color:#a6e22e">dump</span>($collection<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">toArray</span>());
+</code></pre></div><p>只要是一个Collection类型的数据，就可以调用paginate来实现和框架一样的分页了。</p>
+<h3 id="扩展builder查询构建器的功能">扩展Builder查询构建器的功能</h3>
+<p>laravel有很多where,orderBy等查询构建器，有时候我们需要模糊查找，就需要使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$users <span style="color:#f92672">=</span> <span style="color:#a6e22e">DB</span><span style="color:#f92672">::</span><span style="color:#a6e22e">table</span>(<span style="color:#e6db74">&#39;users&#39;</span>)<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">where</span>(<span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;like&#39;</span>, <span style="color:#e6db74">&#39;%京%&#39;</span>)<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">get</span>();
+</code></pre></div><p>where里需要写三个参数，还要写like,还要%，我们干脆扩展一个查询构建器。我们新建一个BuilderMacroServiceProvider</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+
+<span style="color:#66d9ef">namespace</span> <span style="color:#a6e22e">App\Providers</span>;
+
+<span style="color:#66d9ef">use</span> <span style="color:#a6e22e">Illuminate\Database\Query\Builder</span>;
+<span style="color:#66d9ef">use</span> <span style="color:#a6e22e">Illuminate\Support\ServiceProvider</span>;
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BuilderMacroServiceProvider</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">ServiceProvider</span>
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">boot</span>()
+    {
+        <span style="color:#a6e22e">Builder</span><span style="color:#f92672">::</span><span style="color:#a6e22e">macro</span>(<span style="color:#e6db74">&#39;whereLike&#39;</span>, <span style="color:#66d9ef">function</span> ($key, $value) {
+            <span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">where</span>($key, <span style="color:#e6db74">&#34;like&#34;</span>, <span style="color:#e6db74">&#34;%</span><span style="color:#e6db74">$value</span><span style="color:#e6db74">%&#34;</span>);
+        });
+    }
+}
+</code></pre></div><p>同样在config/app.php里的providers里添加好我们新建的BuilderMacroServiceProvider即可全局注册，然后我们就能使用了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">    $countries <span style="color:#f92672">=</span> <span style="color:#a6e22e">App\Models\Company</span><span style="color:#f92672">::</span><span style="color:#a6e22e">whereLike</span>(<span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;京&#39;</span>)<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">get</span>();
+    <span style="color:#a6e22e">dump</span>($countries<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">toArray</span>());
+</code></pre></div><h3 id="哪些组件可以扩展">哪些组件可以扩展</h3>
+<ul>
+<li>
+<p>Cache</p>
+</li>
+<li>
+<p>File</p>
+</li>
+<li>
+<p>Lang</p>
+</li>
+<li>
+<p>Request</p>
+</li>
+<li>
+<p>Response</p>
+</li>
+<li>
+<p>Route</p>
+</li>
+<li>
+<p>URL</p>
+</li>
+</ul>
+<p>我们可以在需要使用的时候进行自己需要的扩展。</p>
+<h3 id="相关的开源组件">相关的开源组件</h3>
+<p>有一个spatie/laravel-collection-macros开源组件，有兴趣的可以去看看，它对Collection扩展了很多方法，它也扩展的有paginate方法，如果觉得有用，可以直接在laravel中使用composer使用。当然，如果你觉得方法太多用不到，只需要其中几个方法即可，也可以将想使用的某几个方法复制到我们自己定义的ServiceProvider.</p>
+
+        </div>
+
+        
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2021-09-26-php-copy/">php中的深拷贝和浅拷贝</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/php'>php</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "gangsusu/gangsusu.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://gangsusu.github.io/">玖月的博客 By 玖月</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://gangsusu.github.io" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">玖月</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://gangsusu.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-10-10-larave-macro/" title="laravel宏指令Macro">laravel宏指令Macro</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-30-go-map/" title="go数据类型之map">go数据类型之map</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/" title="go中的深拷贝和浅拷贝">go中的深拷贝和浅拷贝</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝">php中的深拷贝和浅拷贝</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-24-try-hard/" title="你尽力了吗？">你尽力了吗？</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://gangsusu.github.io/categories/golang/">golang (2)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/php/">php (2)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/%E9%9A%8F%E7%AC%94/">随笔 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://gangsusu.github.io/tags/golang/">golang</a>
+    
+    <a href="https://gangsusu.github.io/tags/php/">php</a>
+    
+    <a href="https://gangsusu.github.io/tags/%E9%9A%8F%E7%AC%94/">随笔</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://gangsusu.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
