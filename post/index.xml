@@ -6,7 +6,19 @@
     <description>Recent content in Posts on 玖月的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 11 Oct 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Oct 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>trait的使用</title>
+      <link>https://gangsusu.github.io/post/2021-10-17-php-trait/</link>
+      <pubDate>Sun, 17 Oct 2021 09:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/post/2021-10-17-php-trait/</guid>
+      <description>简单介绍 trait是php5.4之后新增的一个功能，可以将某些需要反复使用的代码封装到trait中，以达到代码复用的效果。 它的本质不是类，所以不能被实例化，可以将它理解为一个代码片段，可以引入来进行方法的复用。
+简单使用 trait t1 { public $name = &amp;#39;tom&amp;#39;; public function printName() { echo &amp;#39;my name is &amp;#39; . $this-&amp;gt;name . PHP_EOL; } } class c1 { use t1; } $obj = new c1(); $obj-&amp;gt;printName(); // my name is tom 这就是最简单的用法了，定义好一个trait，在需要用的类里使用use来引入，就可以复用trait里的方法了。
+use多个trait trait可以解决php单继承的问题，可以use多个trait
+trait hello { public function sayHello() { return &amp;#39;hello&amp;#39;; } } trait world { public function sayWorld() { return &amp;#39;world&amp;#39;; } } class helloWorld { use hello, world; } $obj1 = new helloWorld(); var_dump($obj1-&amp;gt;sayHello() .</description>
+    </item>
+    
     <item>
       <title>laravel宏指令Macro</title>
       <link>https://gangsusu.github.io/post/2021-10-10-larave-macro/</link>
