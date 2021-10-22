@@ -6,7 +6,19 @@
     <description>Recent content in Posts on 玖月的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 21 Oct 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 22 Oct 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang的atomtic原子操作</title>
+      <link>https://gangsusu.github.io/post/2021-10-22-go-atomtic/</link>
+      <pubDate>Fri, 22 Oct 2021 09:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/post/2021-10-22-go-atomtic/</guid>
+      <description>简介 原子操作，即是进行过程概念中不能被中断的操作。也就是说，针对某个值的原子操作在被进行的过程当中，CPU不会再去进行其他的针对该值的操作。 为了实现这样的严谨性，原子操作仅会由一个独立的CPU指令代表和完成。
+在golang中的sync/atomic包中，提供了对数据的原子性操作。在之前介绍map的并发不安全的时候，我们曾经使用过sync包中的读写锁，atomic是sync包的一个子包。 它提供了6种可操作类型：int32,uint32,int64,uint64,uintptr,unsafe.Pinter。 每一种类型又分别提供了5种操作：Add增减，CampareAndSwap比较并交换，Swap交换，Load载入，Store存储。
+1.增或减 func AddInt32(addr *int32, delta int32) (new int32)func AddUint32(addr *uint32, delta uint32) (new uint32)func AddInt64(addr *int64, delta int64) (new int64)func AddUint64(addr *uint64, delta uint64) (new uint64)func AddUintptr(addr *uintptr, delta uintptr) (new uintptr)原子增减的函数都是以Add开头，需要注意的是，第一个参数是需要加减的变量，是一个指针类型。 第二个参数是加减的数，不过由于uint32和uint64是无符号数，所以无法传递一个负数，来达到减操作的目的。
+package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;sync/atomic&amp;#34; ) var total int64 func worker(wg *sync.WaitGroup) { defer wg.Done() var i int64 for i = 0; i &amp;lt;= 100; i++ { atomic.</description>
+    </item>
+    
     <item>
       <title>二叉树的层序遍历</title>
       <link>https://gangsusu.github.io/post/2021-10-21-php-tree-node/</link>

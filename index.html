@@ -69,6 +69,32 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://gangsusu.github.io/post/2021-10-22-go-atomtic/" title="golang的atomtic原子操作">golang的atomtic原子操作</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年10月22日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/golang'>golang</a></span>
+            
+        </div>
+        
+        <div class="post-content">
+            简介 原子操作，即是进行过程概念中不能被中断的操作。也就是说，针对某个值的原子操作在被进行的过程当中，CPU不会再去进行其他的针对该值的操作。 为了实现这样的严谨性，原子操作仅会由一个独立的CPU指令代表和完成。
+在golang中的sync/atomic包中，提供了对数据的原子性操作。在之前介绍map的并发不安全的时候，我们曾经使用过sync包中的读写锁，atomic是sync包的一个子包。 它提供了6种可操作类型：int32,uint32,int64,uint64,uintptr,unsafe.Pinter。 每一种类型又分别提供了5种操作：Add增减，CampareAndSwap比较并交换，Swap交换，Load载入，Store存储。
+1.增或减 func AddInt32(addr *int32, delta int32) (new int32)func AddUint32(addr *uint32, delta uint32) (new uint32)func AddInt64(addr *int64, delta int64) (new int64)func AddUint64(addr *uint64, delta uint64) (new uint64)func AddUintptr(addr *uintptr, delta uintptr) (new uintptr)原子增减的函数都是以Add开头，需要注意的是，第一个参数是需要加减的变量，是一个指针类型。 第二个参数是加减的数，不过由于uint32和uint64是无符号数，所以无法传递一个负数，来达到减操作的目的。
+package main import ( &#34;fmt&#34; &#34;sync&#34; &#34;sync/atomic&#34; ) var total int64 func worker(wg *sync.WaitGroup) { defer wg.Done() var i int64 for i = 0; i &lt;= 100; i++ { atomic.……
+        </div>
+        <p class="readmore"><a href="https://gangsusu.github.io/post/2021-10-22-go-atomtic/">阅读全文</a></p>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://gangsusu.github.io/post/2021-10-21-php-tree-node/" title="二叉树的层序遍历">二叉树的层序遍历</a>
             </h1>
         </header>
@@ -313,6 +339,10 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
 <ul class="widget-list">
     
     <li>
+        <a href="https://gangsusu.github.io/post/2021-10-22-go-atomtic/" title="golang的atomtic原子操作">golang的atomtic原子操作</a>
+    </li>
+    
+    <li>
         <a href="https://gangsusu.github.io/post/2021-10-21-php-tree-node/" title="二叉树的层序遍历">二叉树的层序遍历</a>
     </li>
     
@@ -349,7 +379,7 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://gangsusu.github.io/categories/golang/">golang (2)</a></li>
+    <li><a href="https://gangsusu.github.io/categories/golang/">golang (3)</a></li>
     
     <li><a href="https://gangsusu.github.io/categories/leetcode/">leetcode (1)</a></li>
     
