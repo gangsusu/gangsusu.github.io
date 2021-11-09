@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>golang中的类型断言 | 玖月的博客</title>
+    <meta property="og:title" content="golang中的类型断言 - 玖月的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-11-08T09:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-11-08T09:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="golang中的类型断言">
+        
+    <meta name="author" content="玖月">
+    <meta property="og:url" content="https://gangsusu.github.io/post/2021-11-08-go-type-assert/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://gangsusu.github.io/">
+                        玖月的博客
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://gangsusu.github.io/">首页</a>
+                    
+                    <a  href="https://gangsusu.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://gangsusu.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">golang中的类型断言</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年11月8日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/golang'>golang</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <p>类型断言是一个使用在接口值上的操作。<br>
+有时候，我们可能需要知道某个接口类型的实际类型，比如某个方法需要接收多种类型的数据，并需要做分别处理，我们可以把形参设置为空接口类型并接收任意类型的值，但是我们怎么反向知道里面实际保存的哪个类型的对象呢？
+我们就可以利用断言。   <br>
+语法是x.(T)，x表示一个接口类型的值，T表示一个类型，该断言表达式会返回x的值和一个布尔值，可根据该布尔值判断x是否是T类型。</p>
+<h3 id="简单使用">简单使用</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">interface</span>{}
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">float32</span> = <span style="color:#ae81ff">3.14</span>
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">b</span> <span style="color:#75715e">//空接口可以用来接受任意值
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//y := x.(float64)
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//fmt.Printf(&#34;type是 %T,值是%v&#34;, y, y)
+</span><span style="color:#75715e"></span>
+	<span style="color:#a6e22e">y1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x</span>.(<span style="color:#66d9ef">float32</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type是 %T,值是%v&#34;</span>, <span style="color:#a6e22e">y1</span>, <span style="color:#a6e22e">y1</span>)
+}
+
+</code></pre></div><p>在注释的代码里，断言类型是flout64，因为非flout64类型，会报一个panic错误。可以如下所示，在返回值加上布尔返回值。</p>
+<h3 id="添加布尔返回值">添加布尔返回值</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">interface</span>{}
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">float32</span> = <span style="color:#ae81ff">3.14</span>
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">b</span> <span style="color:#75715e">//空接口可以用来接受任意值
+</span><span style="color:#75715e"></span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x</span>.(<span style="color:#66d9ef">float64</span>); <span style="color:#a6e22e">ok</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type是 %T,值是%v&#34;</span>, <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">y</span>)
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x</span>.(<span style="color:#66d9ef">float32</span>); <span style="color:#a6e22e">ok</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type是 %T,值是%v&#34;</span>, <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">y</span>)
+	}
+}
+
+</code></pre></div><h3 id="使用场景1">使用场景1</h3>
+<p>如我们在简介里说的，一个方法，需要根据传递参数的类型的不同，执行不同的方法，可以使用断言。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">interface</span>{}) {
+	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>.(<span style="color:#66d9ef">type</span>) {
+	<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">int</span>:
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type %T,res %d\n&#34;</span>, <span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">a</span>.(<span style="color:#66d9ef">int</span>)<span style="color:#f92672">+</span><span style="color:#a6e22e">b</span>.(<span style="color:#66d9ef">int</span>))
+	<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">float64</span>:
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type %T,res %f\n&#34;</span>, <span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">a</span>.(<span style="color:#66d9ef">float64</span>)<span style="color:#f92672">+</span><span style="color:#a6e22e">b</span>.(<span style="color:#66d9ef">float64</span>))
+	<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">float32</span>:
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type %T,res %f\n&#34;</span>, <span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">a</span>.(<span style="color:#66d9ef">float32</span>)<span style="color:#f92672">+</span><span style="color:#a6e22e">b</span>.(<span style="color:#66d9ef">float32</span>))
+	<span style="color:#66d9ef">default</span>:
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type %T not suppot\n&#34;</span>, <span style="color:#a6e22e">a</span>)
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">add</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)
+	<span style="color:#a6e22e">add</span>(float64(<span style="color:#ae81ff">1.1</span>), float64(<span style="color:#ae81ff">1.1</span>))
+	<span style="color:#a6e22e">add</span>(float32(<span style="color:#ae81ff">1.2</span>), float32(<span style="color:#ae81ff">1.1</span>))
+	<span style="color:#a6e22e">add</span>(<span style="color:#e6db74">&#34;hello&#34;</span>, <span style="color:#e6db74">&#34;world&#34;</span>)
+}
+
+</code></pre></div><p>使用了x.(type)来返回类型，使用switch case来多路判断，更简便。</p>
+<h3 id="使用场景2">使用场景2</h3>
+<p>判断struct是否是实现了某个接口</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#75715e">// 定义一个usb接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Usb</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">//声明了两个没有实现的方法
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Start</span>()
+	<span style="color:#a6e22e">Stop</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Phone</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#75715e">//让Phone实现usb接口的方法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Phone</span>) <span style="color:#a6e22e">Start</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;手机开始工作……&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Phone</span>) <span style="color:#a6e22e">Stop</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;手机停止工作……&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Phone</span>) <span style="color:#a6e22e">Call</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;手机在打电话……&#34;</span>)
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Camera</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Camera</span>) <span style="color:#a6e22e">Start</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;相机开始工作……&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Camera</span>) <span style="color:#a6e22e">Stop</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;相机停止工作……&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Working</span>(<span style="color:#a6e22e">usb</span> <span style="color:#a6e22e">Usb</span>) {
+	<span style="color:#a6e22e">usb</span>.<span style="color:#a6e22e">Start</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">phone</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">usb</span>.(<span style="color:#a6e22e">Phone</span>); <span style="color:#a6e22e">ok</span> {
+		<span style="color:#a6e22e">phone</span>.<span style="color:#a6e22e">Call</span>()
+	}
+	<span style="color:#a6e22e">usb</span>.<span style="color:#a6e22e">Stop</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">phone01</span> = <span style="color:#a6e22e">Phone</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;三星&#34;</span>}
+	<span style="color:#a6e22e">Working</span>(<span style="color:#a6e22e">phone01</span>)
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">camera01</span> = <span style="color:#a6e22e">Camera</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;佳能&#34;</span>}
+	<span style="color:#a6e22e">Working</span>(<span style="color:#a6e22e">camera01</span>)
+}
+
+</code></pre></div><h3 id="tips">tips</h3>
+<p>需要注意的是，如果断言的操作对象是nil,那么不论被断言的类型T是什么，都会失败。</p>
+
+        </div>
+
+        
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2021-10-22-go-atomtic/">golang的atomtic原子操作</a></li>
+        
+        <li><a href="/post/2021-09-30-go-map/">go数据类型之map</a></li>
+        
+        <li><a href="/post/2021-09-28-go-copy/">go中的深拷贝和浅拷贝</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/golang'>golang</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "gangsusu/gangsusu.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://gangsusu.github.io/">玖月的博客 By 玖月</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://gangsusu.github.io" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">玖月</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://gangsusu.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-11-08-go-type-assert/" title="golang中的类型断言">golang中的类型断言</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-10-28-php-single-number/" title="数组中数字出现的次数">数组中数字出现的次数</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-10-22-go-atomtic/" title="golang的atomtic原子操作">golang的atomtic原子操作</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-10-21-php-tree-node/" title="二叉树的层序遍历">二叉树的层序遍历</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-10-17-php-trait/" title="trait的使用">trait的使用</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-10-10-larave-macro/" title="laravel宏指令Macro">laravel宏指令Macro</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-30-go-map/" title="go数据类型之map">go数据类型之map</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/" title="go中的深拷贝和浅拷贝">go中的深拷贝和浅拷贝</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝">php中的深拷贝和浅拷贝</a>
+    </li>
+    
+    <li>
+        <a href="https://gangsusu.github.io/post/2021-09-24-try-hard/" title="你尽力了吗？">你尽力了吗？</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://gangsusu.github.io/categories/golang/">golang (4)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/leetcode/">leetcode (2)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/php/">php (3)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/%E9%9A%8F%E7%AC%94/">随笔 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://gangsusu.github.io/tags/golang/">golang</a>
+    
+    <a href="https://gangsusu.github.io/tags/leetcode/">leetcode</a>
+    
+    <a href="https://gangsusu.github.io/tags/php/">php</a>
+    
+    <a href="https://gangsusu.github.io/tags/%E9%9A%8F%E7%AC%94/">随笔</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://gangsusu.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

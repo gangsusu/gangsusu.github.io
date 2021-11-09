@@ -6,7 +6,19 @@
     <description>Recent content in golang on 玖月的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 22 Oct 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Nov 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang中的类型断言</title>
+      <link>https://gangsusu.github.io/post/2021-11-08-go-type-assert/</link>
+      <pubDate>Mon, 08 Nov 2021 09:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/post/2021-11-08-go-type-assert/</guid>
+      <description>类型断言是一个使用在接口值上的操作。
+有时候，我们可能需要知道某个接口类型的实际类型，比如某个方法需要接收多种类型的数据，并需要做分别处理，我们可以把形参设置为空接口类型并接收任意类型的值，但是我们怎么反向知道里面实际保存的哪个类型的对象呢？ 我们就可以利用断言。 语法是x.(T)，x表示一个接口类型的值，T表示一个类型，该断言表达式会返回x的值和一个布尔值，可根据该布尔值判断x是否是T类型。
+简单使用 package main import &amp;#34;fmt&amp;#34; func main() { var x interface{} var b float32 = 3.14 x = b //空接口可以用来接受任意值 	// 	//y := x.(float64) 	//fmt.Printf(&amp;#34;type是 %T,值是%v&amp;#34;, y, y)  y1 := x.(float32) fmt.Printf(&amp;#34;type是 %T,值是%v&amp;#34;, y1, y1) } 在注释的代码里，断言类型是flout64，因为非flout64类型，会报一个panic错误。可以如下所示，在返回值加上布尔返回值。
+添加布尔返回值 package main import &amp;#34;fmt&amp;#34; func main() { var x interface{} var b float32 = 3.14 x = b //空接口可以用来接受任意值  if y, ok := x.</description>
+    </item>
+    
     <item>
       <title>golang的atomtic原子操作</title>
       <link>https://gangsusu.github.io/post/2021-10-22-go-atomtic/</link>
