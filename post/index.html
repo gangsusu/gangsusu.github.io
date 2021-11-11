@@ -71,6 +71,36 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://gangsusu.github.io/post/2021-11-11-javascript-up/" title="javascript中的变量提升和函数提升">javascript中的变量提升和函数提升</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年11月11日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/javascript'>javascript</a></span>
+            
+        </div>
+        
+        <div class="post-content">
+            变量提升 console.log(a); //undefined var a = 10; console.log(a); //10 为什么在变量之前打印出来是undefined，而在之后是10呢？其实真正执行是按下面的步骤执行的：
+var a //首先会检查该作用域中有没有变量，如果有，就提升到作用域的顶部来 console.log(a); //当此时打印的时候，a已经存在了，但是没有赋值，所以是undefined a = 10 //此时给a赋值 console.log(a) //a已经赋值为10，所以打印是10 使用var定义变量的时候，js解释器会将变量提升到该作用域的最顶部，这就是变量提升 看下一个例子：
+var a = 10; functin foo(){ console.log(a); //undefined  var a = 10; console.log(a); //10 } foo(); 同样，我们来解析一下执行过程
+var a; //变量提升 a = 10; //赋值 function foo(){ var a; //变量提升  console.log(a); //undefined  a = 10; console.log(a); //10 } foo(); 在函数里面形成了函数作用域，只要里面存在变量，就会提升到函数内部的顶端。
+再看下面一个例子：
+console.log(a);//报错，a is not defined a = 10; 这是因为a是直接赋值的，并没有通过var来声明，所以并不会进行变量提升，即：只有var定义的变量才存在变量提升。……
+        </div>
+        <p class="readmore"><a href="https://gangsusu.github.io/post/2021-11-11-javascript-up/">阅读全文</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://gangsusu.github.io/post/2021-11-08-go-type-assert/" title="golang中的类型断言">golang中的类型断言</a>
             </h1>
         </header>
@@ -327,44 +357,28 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
     
     
     
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://gangsusu.github.io/post/2021-09-24-try-hard/" title="你尽力了吗？">你尽力了吗？</a>
-            </h1>
-        </header>
-        <date class="post-meta meta-date">
-            2021年9月24日
-        </date>
-        
-        <div class="post-meta">
-            <span>|</span>
-            
-            <span class="meta-category"><a href='/categories/%E9%9A%8F%E7%AC%94'>随笔</a></span>
-            
-        </div>
-        
-        <div class="post-content">
-            来自大佬的灵魂拷问：你尽力了吗？
-应该是没有，尽力了应该不会是现在这个样子吧。
-但是，还是希望自己能每天进步一点点，再努力努力。
-借用程序员诗人子健的歌，来升华一下：
-关于明天 愿你坚持不懈
-即便前路 是无尽的黑夜
-一路向前 沿途美景无边
-义无反顾 理想无需多言
-再多考验 都会兑换成喜悦
-拼搏憧憬 为更美好的明天
-特别鸣谢
-听从了大佬的指点，才开了这个博客，感谢大佬的帮助和指点。……
-        </div>
-        <p class="readmore"><a href="https://gangsusu.github.io/post/2021-09-24-try-hard/">阅读全文</a></p>
-    </article>
-    
-    
-    
 
 
+
+<ol class="page-navigator">
+    
+
+    
+    <li  class="current">
+        <a href="https://gangsusu.github.io/post/">1</a>
+    </li>
+    
+    <li >
+        <a href="https://gangsusu.github.io/post/page/2/">2</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="https://gangsusu.github.io/post/page/2/">下一页</a>
+    </li>
+    
+</ol>
 
 
 
@@ -416,6 +430,10 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
 <ul class="widget-list">
     
     <li>
+        <a href="https://gangsusu.github.io/post/2021-11-11-javascript-up/" title="javascript中的变量提升和函数提升">javascript中的变量提升和函数提升</a>
+    </li>
+    
+    <li>
         <a href="https://gangsusu.github.io/post/2021-11-08-go-type-assert/" title="golang中的类型断言">golang中的类型断言</a>
     </li>
     
@@ -451,10 +469,6 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
         <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝">php中的深拷贝和浅拷贝</a>
     </li>
     
-    <li>
-        <a href="https://gangsusu.github.io/post/2021-09-24-try-hard/" title="你尽力了吗？">你尽力了吗？</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -465,6 +479,8 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
 <ul class="widget-list">
     
     <li><a href="https://gangsusu.github.io/categories/golang/">golang (4)</a></li>
+    
+    <li><a href="https://gangsusu.github.io/categories/javascript/">javascript (1)</a></li>
     
     <li><a href="https://gangsusu.github.io/categories/leetcode/">leetcode (2)</a></li>
     
@@ -480,6 +496,8 @@ __clone可以复制，我们看看上面的情况用__clone会如何  class Test
 <div class="tagcloud">
     
     <a href="https://gangsusu.github.io/tags/golang/">golang</a>
+    
+    <a href="https://gangsusu.github.io/tags/javascript/">javascript</a>
     
     <a href="https://gangsusu.github.io/tags/leetcode/">leetcode</a>
     
