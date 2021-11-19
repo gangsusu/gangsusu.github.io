@@ -3,7 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://gangsusu.github.io/categories/</loc>
-    <lastmod>2021-11-11T09:00:00+08:00</lastmod>
+    <lastmod>2021-11-19T09:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://gangsusu.github.io/post/</loc>
+    <lastmod>2021-11-19T09:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://gangsusu.github.io/tags/redis/</loc>
+    <lastmod>2021-11-19T09:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://gangsusu.github.io/categories/redis/</loc>
+    <lastmod>2021-11-19T09:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://gangsusu.github.io/post/2021-11-19-redis-bitmap/</loc>
+    <lastmod>2021-11-19T09:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://gangsusu.github.io/tags/</loc>
+    <lastmod>2021-11-19T09:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://gangsusu.github.io/</loc>
+    <lastmod>2021-11-19T09:00:00+08:00</lastmod>
   </url><url>
     <loc>https://gangsusu.github.io/tags/javascript/</loc>
     <lastmod>2021-11-11T09:00:00+08:00</lastmod>
@@ -12,15 +30,6 @@
     <lastmod>2021-11-11T09:00:00+08:00</lastmod>
   </url><url>
     <loc>https://gangsusu.github.io/post/2021-11-11-javascript-up/</loc>
-    <lastmod>2021-11-11T09:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://gangsusu.github.io/post/</loc>
-    <lastmod>2021-11-11T09:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://gangsusu.github.io/tags/</loc>
-    <lastmod>2021-11-11T09:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://gangsusu.github.io/</loc>
     <lastmod>2021-11-11T09:00:00+08:00</lastmod>
   </url><url>
     <loc>https://gangsusu.github.io/tags/golang/</loc>

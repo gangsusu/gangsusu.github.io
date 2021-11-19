@@ -69,6 +69,32 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝">php中的深拷贝和浅拷贝</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年9月26日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/php'>php</a></span>
+            
+        </div>
+        
+        <div class="post-content">
+            深拷贝和浅拷贝的通俗理解  深拷贝：在赋值的时候，完全复制，是完全不同的两个值，对其中一个修改，不会影响到另一个。 浅拷贝：在赋值的时候，是引用赋值，对应的是同一个值，对其中一个修改，另一个的值也会随之更改。  在php中，常用的数据数据类型如int和string，是深拷贝，直接复制了一个新的出来，两个值之间互不干涉，这个比较简单，不做赘述。我们来看一下，稍微有点不同的对象类型。
+代码验证  首先，我们来看一看最简单的，只包含一个普通属性的情况：  class TestOne { public $data = 11; } $a = new TestOne(); $b = $a; $a-&gt;data = 22; var_dump($a-&gt;data); // 22 var_dump($b-&gt;data); // 22 我们可以看到其中一个值的改变，另一个值也随之改变了，说明了不同于php常见数据类型的深拷贝，这里发生的浅拷贝。
+__clone可以复制，我们看看上面的情况用__clone会如何  class TestTwo { public $data = 11; } $c = new TestTwo(); $d = clone $c; $c-&gt;data = 22; var_dump($c-&gt;data); // 22 var_dump($d-&gt;data); // 11 我们可以看到，一个值得改变没有影响到另一个，发生的是深拷贝。
+我们看一看更复杂的情况，加上对象属性会怎么样  class Test { public $a = 1; } class TestThree { public $b = 1; public $obj; public function __construct() { $this-&gt;obj = new Test(); } } $e = new TestThree(); $f = $e; $e-&gt;b = 2; $e-&gt;obj-&gt;a = 3; var_dump($e-&gt;b); //2 var_dump($e-&gt;obj-&gt;a); //3 var_dump($f-&gt;b); //2 var_dump($f-&gt;obj-&gt;a); //3 我们可以看到，普通属性和对象属性操作的值都该改变了，说明都发生了浅拷贝，这和TestOne中是一样的。……
+        </div>
+        <p class="readmore"><a href="https://gangsusu.github.io/post/2021-09-26-php-copy/">阅读全文</a></p>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://gangsusu.github.io/post/2021-09-24-try-hard/" title="你尽力了吗？">你尽力了吗？</a>
             </h1>
         </header>
@@ -174,6 +200,10 @@
 <ul class="widget-list">
     
     <li>
+        <a href="https://gangsusu.github.io/post/2021-11-19-redis-bitmap/" title="redis中的bitmap">redis中的bitmap</a>
+    </li>
+    
+    <li>
         <a href="https://gangsusu.github.io/post/2021-11-11-javascript-up/" title="javascript中的变量提升和函数提升">javascript中的变量提升和函数提升</a>
     </li>
     
@@ -209,10 +239,6 @@
         <a href="https://gangsusu.github.io/post/2021-09-28-go-copy/" title="go中的深拷贝和浅拷贝">go中的深拷贝和浅拷贝</a>
     </li>
     
-    <li>
-        <a href="https://gangsusu.github.io/post/2021-09-26-php-copy/" title="php中的深拷贝和浅拷贝">php中的深拷贝和浅拷贝</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -230,6 +256,8 @@
     
     <li><a href="https://gangsusu.github.io/categories/php/">php (3)</a></li>
     
+    <li><a href="https://gangsusu.github.io/categories/redis/">redis (1)</a></li>
+    
     <li><a href="https://gangsusu.github.io/categories/%E9%9A%8F%E7%AC%94/">随笔 (1)</a></li>
     
 </ul>
@@ -246,6 +274,8 @@
     <a href="https://gangsusu.github.io/tags/leetcode/">leetcode</a>
     
     <a href="https://gangsusu.github.io/tags/php/">php</a>
+    
+    <a href="https://gangsusu.github.io/tags/redis/">redis</a>
     
     <a href="https://gangsusu.github.io/tags/%E9%9A%8F%E7%AC%94/">随笔</a>
     

@@ -6,7 +6,21 @@
     <description>Recent content on 玖月的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 11 Nov 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 Nov 2021 09:00:00 +0800</lastBuildDate><atom:link href="https://gangsusu.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>redis中的bitmap</title>
+      <link>https://gangsusu.github.io/post/2021-11-19-redis-bitmap/</link>
+      <pubDate>Fri, 19 Nov 2021 09:00:00 +0800</pubDate>
+      
+      <guid>https://gangsusu.github.io/post/2021-11-19-redis-bitmap/</guid>
+      <description>前言 bitmap，即位图，是一连串的二进制数组，可以同通过偏移量来定位元素。 bit是计算机中最小的单位，使用它来存储一些特殊的数据将会非常节省空间，特别适合一些数据量大，并且使用二值统计的场景。 这里的二值状态就是指集合元素的取值只有0和1两种。例如在签到中，我们就可以用0和1分别代表未签到和已签到。统计每个月的签到，只需要31个bit, 一年的值，只需要365个bit。
+bitmap在redis中并不是一种基本的数据类型，而是基于string类型进行的位操作。redis中字符串的最大长度是512M，所以bitmap的偏移量也是有上限的， 它的最大值就是8 * 1024 * 1024 * 512 = 2^32。
+简单使用 1. setbit  语法为： setbit key offset value 时间复杂度：O(1)  假如我们想要记录userId是10086的用户在2021年11月的签到数据，我们就可以使用setbit userid:10086:202111 0 1,用偏移量表示日，因为从0开始， 我们就用0表示1号，1表示2号，依次类推，value的0和1表示未签到和已经签到，那么setbit userid:10086:202111 0 1就记录了该用户在11月1号已签到。 bitmap是基于string的，我们可以用strlen来查看长度，可以自行试一下，setbit了1到8个值的时候，长度都是1，当再插入一个值的时候，长度就会变为2。
+2. getbit  语法为：getbit key offset 时间复杂度：O(1)  我们想要获取2021年11月3号该用户是否签到，就可以用getbit userid:10086:202111 2,需要注意的是，我们从0开始保存，所以日要减去1。
+3. bitcount  语法为：bitcount key [start end] 时间复杂度：O(N) 返回值是一个整数：是值为1的个数 start和end是指定的字节范围，而不是偏移量。 start和end可以是负数，-1表示最后一个字节，-2表示倒数第二个字节，依次类推。 key不存在，返回0  假如我们需要统计该用户11月一共签到了多少天，就可以用bitcount userid:10086:202111，不加可选参数，就可以获取了。
+4. bitpos  语法为：bitpos key bit [start [end]] 时间复杂度：O(N) 返回值是整数，返回比特值是指定bit(0或者1)的偏移量 start和end是指定的字节范围，而不是偏移量。这个和bitcount里是一样的。 start和end可以是负数，-1表示最后一个字节，-2表示倒数第二个字节，依次类推。同bitcount 如果值全部是1，但是指定的bit是0，那么此时返回的值是最大的偏移量offset+1 如果查询的bit是1，查询不到就返回-1  我们可以用来统计在2021年11月该用户首次签到的时间，使用bitpos userid:10086:202111,如果返回值是3，就表示是首次签到的时间是4号。</description>
+    </item>
+    
     <item>
       <title>javascript中的变量提升和函数提升</title>
       <link>https://gangsusu.github.io/post/2021-11-11-javascript-up/</link>
